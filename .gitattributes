@@ -1,0 +1,6 @@
+* text=auto
+
+*.py	text
+*.TextGrid	text
+*.praat	text
+*.wav	binary
