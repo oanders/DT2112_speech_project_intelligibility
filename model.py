@@ -9,5 +9,5 @@ def readData():
 
 def main():
     df = readData()
-    print(df)
+    print(df["ID_rec"])
 main()
