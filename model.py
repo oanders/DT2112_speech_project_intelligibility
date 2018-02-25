@@ -36,7 +36,7 @@ def saveDFs(df_Be, df_JP, df_O):
 
 def main():
     df = readData()
-    df = df.replace("--undefined--", 0) #Seems reasonable to just set undefined to 0 for averaging
+    df = df.replace("--undefined--", np.NaN) #Seems reasonable to just set undefined to 0 for averaging
     
     df_Be = df[df.ID_rec.str.startswith("Be")]
     df_JP = df[df.ID_rec.str.startswith("JP")]
@@ -46,9 +46,9 @@ def main():
     df_JP = getMeanValues(df_JP)
     df_O = getMeanValues(df_O)
 
-    model1(df_JP, df_O)
+    #model1(df_JP, df_O)
 
-    #saveDFs(df_Be, df_JP, df_O)
+    saveDFs(df_Be, df_JP, df_O)
 
 
 main()
