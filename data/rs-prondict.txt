@@ -1,0 +1,90 @@
+fortsatt	[ ""f u: rt . %rs a t ]	/XXX/NEU/	freq:4460
+nå	[ "n o: ]	/VB/IN/	freq:4324
+ber	[ "b e: r ]	/VB/AKT/PRS/	freq:4883
+manat	[ ""m a . %n a t ]	/VB/AKT/IND/NEU/NOM/PC/PRF/SIN/SUP/	freq:6474
+upp	[ "u p ]	/PP/	freq:3079
+samtidigt	[ ""s a m - %t i: . d I t ]	/AB/NEU/	freq:3657
+nordkorea	[ ""n u: rd - k u: . %r e: . a ]	/NN/UTR/	freq:5133
+genomfört	[ ""j e: . n O m - %f 9: rt ]	/VB/AKT/IND/NEU/NOM/PC/PRF/SIN/SUP/	freq:5055
+åtgärder	[ ""o: t - %j &: . rd @ r ]	/NN/UTR/	freq:4501
+retoriken	[ r E . t O . "r i: . k @ n ]	/NN/UTR/	freq:5706
+piska	[ "p I . s k a ]	/NN/UTR/	freq:6000
+president	[ p r E . s I . "d E n t ]	/NN/UTR/	freq:4014
+säger	[ "s E . j @ r ]	/XXX/	freq:3935
+eskalera	[ E . s k a . "l e: . r a ]	/VB/	freq:6717
+kommer	[ "k O . m @ r ]	/VB/PRS/AKT/	freq:3298
+stort	[ "s t u: rt ]	/JJ/POS/NEU/	freq:3619
+global	[ g l U . "b A: l ]	/NN/UTR/	freq:4800
+flottan	[ ""f l O . %t a n ]	/NN/UTR/	freq:4452
+vidta	[ ""v i: d - %t A: ]	/XXX/	freq:5454
+krisen	[ "k r i: . s @ n ]	/NN/UTR/	freq:5085
+ytterligare	[ ""Y . t @ r . %l I . a . r @ ]	/AB/	freq:3743
+väg	[ "v E: g ]	/NN/	freq:3959
+fler	[ "f l e: r ]	/JJ/	freq:3885
+hysteri	[ h Y . s t E . "r i: ]	/NN/UTR/	freq:6124
+prat	[ "p r A: t ]	/NN/NEU/	freq:5828
+sagt	[ "s a k t ]	/XXX/NEU/	freq:4470
+två	[ "t v o: ]	/RG/	freq:2234
+vart	[ "v A: rt ]	/NN/NEU/	freq:4673
+varnar	[ ""v A: . %rn a r ]	/XXX/	freq:5469
+nordkoreas	[ ""n u: rd - k u: - %r e: . a s ]	/NN/UTR/	freq:5867
+lösning	[ ""l 2: . %s n I N ]	/NN/	freq:4667
+möjliga	[ ""m 2 j . %l I . a ]	/XXX/	freq:4623
+dialog	[ d I . a . "l o: g ]	/NN/UTR/	freq:4991
+kraftfullaste	[ ""k r a f t - %f u . l a . s t @ ]	/DEF/JJ/NOM/SIN/PLU/SUV/UTR/NEU/	freq:6305
+genomförde	[ ""j e: . n O m - %f 9: . rd @ ]	/XXX/	freq:4503
+agerande	[ a . "g e: . r a n . d @ ]	/NN/NEU/	freq:5196
+meningslöst	[ ""m e: . n I N s - %l 2: s t ]	/JJ/AB/AKT/IND/NEU/NOM/PC/POS/PRF/SIN/SUP/UTR/VB/	freq:6025
+katastrof	[ k a . t a . "s t r o: f ]	/NN/UTR/	freq:5336
+situationen	[ s I . t u . a . "X u: . n @ n ]	/NN/UTR/	freq:4661
+hotfulla	[ ""h u: t - %f u . l a ]	/JJ/DEF/IND/DEF/NOM/PLU/POS/SIN/UTR/NEU/	freq:6101
+trappas	[ ""t r a . %p a s ]	/NN/UTR/	freq:6517
+lyckas	[ ""l Y . %k a s ]	/NN/UTR/	freq:4405
+sydkoreanska	[ ""s y: d - k O . r E . %A: n . s k a ]	/NN/UTR/	freq:5554
+riskerar	[ r I . "s k e: . r a r ]	/XXX/	freq:5057
+hittills	[ "h i: . t I l s ]	/XXX/	freq:4413
+antal	[ ""a n - %t A: l ]	/NN/NEU/	freq:3578
+diplomatisk	[ d I . p l O . "m A: . t I s k ]	/JJ/IND/NOM/POS/SIN/UTR/	freq:5479
+världen	[ "v &: . rd @ n ]	/NN/UTR/	freq:3746
+konflikten	[ k O n . "f l I k . t @ n ]	/NN/UTR/	freq:4795
+kallar	[ ""k a . %l a r ]	/VB/PRS/AKT/	freq:3557
+militär	[ m I . l I . "t &: r ]	/NN/UTR/	freq:4257
+åtgärderna	[ ""o: t - %j &: . rd @ . rn a ]	/NN/UTR/	freq:5626
+säkerhetsrådet	[ ""s E: . k @ r - h e: t s - %r o: . d @ t ]	/NN/NEU/	freq:5918
+fördömer	[ f 9 . "rd 2 . m @ r ]	/XXX/	freq:5973
+provokativt	[ "p r O . v O . k a . t i: f t ]	/XXX/NEU/	freq:6775
+uttalandet	[ ""ü: . %t A: . l a n . d @ t ]	/NN/NEU/	freq:5655
+tecken	[ "t E . k @ n ]	/NN/NEU/	freq:4381
+starkaste	[ ""s t a r . %k a . s t @ ]	/XXX/	freq:4978
+ambassadör	[ a m . b a . s a . "d 9: r ]	/NN/UTR/	freq:4701
+avråder	[ ""A: v - %r o: . d @ r ]	/XXX/	freq:6101
+sanktioner	[ s a N k . "X u: . n @ r ]	/NN/UTR/	freq:5644
+ned	[ "n e: d ]	/AB/	freq:3940
+allt	[ "a l t ]	/NN/	freq:3501 func:y
+att	[ "a t ]	/INF/	freq:1996 func:y
+de	[ "d O m ]	/DT/DEF/IND/PLU/PN1/SUB/OBJ/	freq:2266 func:y
+den	[ "d E n ]	/PN/	freq:2019 func:y
+det	[ "d e: ]	/PN/	freq:2209 func:y
+efter	[ "E f . t @ r ]	/PP/AB/KN/	freq:2665 func:y
+en	[ "E n ]	/DT/PN/SIN/SUB/OBJ/FOR/UTR/	freq:1604 func:y
+ett	[ "E t ]	/DT/	freq:2127 func:y
+för	[ "f 9: r ]	/PP/AB/KN/	freq:2078 func:y
+från	[ "f r o: n ]	/PP/	freq:2388
+han	[ "h a n ]	/PN/	freq:2244 func:y
+har	[ "h A: r ]	/VB/	freq:2348 func:y
+här	[ "h &: r ]	/NN/	freq:3344 func:y
+i	[ "i: ]	/PP/	freq:1403 func:y
+inte	[ ""I n . %t @ ]	/AB/	freq:2673 func:y
+kan	[ "k a n ]	/VB/	freq:2729 func:y
+leder	[ "l e: . d @ r ]	/VB/AKT/PRS/	freq:4114
+med	[ "m e: ]	/PP/AB/	freq:2037 func:y
+men	[ "m E n ]	/KN/	freq:2649 func:y
+mot	[ "m u: t ]	/NN/	freq:2937 func:y
+och	[ "O ]	/KN1/	freq:1416	func:y
+om	[ "O m ]	/PP/KN/	freq:2492 func:y
+till	[ "t I l ]	/PP/	freq:1939 func:y
+är	[ "&: r ]	/VB/	freq:1662 func:y
+ingen	[ ""I . %N @ n ]	/PN/	freq:3772 func:y
+på	[ "p o: ]	/PP/	freq:2028 func:y
+sitt	[ "s I t ]	/PM/	freq:2861 func:y
+som	[ "s O m ]	/KN/PN/AB/	freq:1635 func:y
