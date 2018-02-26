@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib as plt
 from sklearn import linear_model
 from sklearn.preprocessing import Imputer
+from sklearn.metrics import mean_squared_error
 
 def readData():
     currentDir = os.getcwd()
@@ -21,9 +22,15 @@ def model1(df_X, df_Y):
     Y = df_Y_1to3[["F1", "F2"]].values
 
     model = linear_model.LinearRegression()
+    
+    # Train the model
     model.fit(X, Y)
 
-    print(model.coef_)
+    # Predict (Should do on only test set)
+    prediction = model.predict(X)
+
+    # Get error score
+    print("Mean squared error is", mean_squared_error(Y, prediction))
 
 def saveDFs(df_B, df_J, df_O):
     writer = pandas.ExcelWriter("test.xlsx")
@@ -50,7 +57,12 @@ def main():
     imput(df_J)
     imput(df_O)
 
+    print("Fitting O to O")
+    model1(df_O, df_O)
+    print("--------------------------\nFitting J to O")
     model1(df_J, df_O)
+    print("--------------------------\nFitting B to O")
+    model1(df_B, df_O)
 
     saveDFs(df_B, df_J, df_O)
 
