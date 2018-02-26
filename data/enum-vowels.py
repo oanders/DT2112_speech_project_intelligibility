@@ -13,12 +13,10 @@ for filename in filenames:
     t.addTier(t.tierDict["sent - phones"].new(name="vowels"))
     for i in range(len(t.tierDict["vowels"].entryList)):
         ph = t.tierDict["vowels"].entryList[i].label.strip()
-        star = False
         if "*" in ph: # phonemes marked by a * are too messy and will be excluded
-            star = True
             ph = ph.replace("*","")
         if ph in vowels:
-            lbl = "*"*star + str(n)
+            lbl = str(n)
             n += 1
         else:
             lbl = ""

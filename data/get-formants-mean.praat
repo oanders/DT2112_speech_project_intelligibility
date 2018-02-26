@@ -32,6 +32,7 @@ for i from 1 to 'total'
             vow$ = Get label of interval: 3, tmp
             if index(vow$,"*")
                 incl = 0
+                vow$ = replace$(vow$,"*","",0)
             else
                 incl = 1
             endif
