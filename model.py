@@ -8,6 +8,7 @@ from sklearn.preprocessing import Imputer
 from sklearn.metrics import mean_squared_error
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
+from sklearn.model_selection import train_test_split
 
 def readData():
     currentDir = os.getcwd()
@@ -19,25 +20,31 @@ def readData():
 #Train model to fit x -> y
 def model1(df_X, df_Y):
 
+    # Get the readings that are good in both
     good_x = df_X["include"] == 1
     good_y = df_X["include"] == 1
-    good = good_x & good_y # Get the readings that are good in both
+    good = good_x & good_y 
 
     df_X_good = df_X[good]
     df_Y_good = df_Y[good]
+
     X = df_X_good[["F1", "F2"]].values
-    Y = df_Y_good[["F1", "F2"]].values
+    y = df_Y_good[["F1", "F2"]].values
 
     model = linear_model.LinearRegression()
     
+    # Split into train and test set (Dont see why we would need validation since we have no hyperparameters)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+
     # Train the model
-    model.fit(X, Y)
+    model.fit(X_train, y_train)
 
     # Predict (Should do on only test set)
-    prediction = model.predict(X)
+    prediction = model.predict(X_test)
 
     # Get error score
-    print("Mean squared error is", mean_squared_error(Y, prediction))
+    print("Mean squared error before regression was", mean_squared_error(y, X))
+    print("Mean squared error after regression is", mean_squared_error(y_test, prediction))
 
 def saveDFs(df_B, df_J, df_O):
     writer = pandas.ExcelWriter("test.xlsx")
@@ -123,10 +130,6 @@ def main():
     df_B = df[df['speaker'] == "B"].reset_index()
     df_J = df[df['speaker'] == "J"].reset_index()
     df_O = df[df['speaker'] == "O"].reset_index()
-
-    print("Size B", df_B.shape)
-    print("Size J", df_J.shape)
-    print("Size O", df_O.shape)
 
     print("Size B without zeros", df_B[df_B["include"] != 0].shape)
     print("Size J without zeros", df_J[df_J["include"] != 0].shape)
