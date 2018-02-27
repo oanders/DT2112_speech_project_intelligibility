@@ -19,10 +19,14 @@ def readData():
 #Train model to fit x -> y
 def model1(df_X, df_Y):
 
-    df_X_1to3 = df_X.head(86)
-    df_Y_1to3 = df_Y.head(86)
-    X = df_X_1to3[["F1", "F2"]].values
-    Y = df_Y_1to3[["F1", "F2"]].values
+    good_x = df_X["include"] == 1
+    good_y = df_X["include"] == 1
+    good = good_x & good_y # Get the readings that are good in both
+
+    df_X_good = df_X[good]
+    df_Y_good = df_Y[good]
+    X = df_X_good[["F1", "F2"]].values
+    Y = df_Y_good[["F1", "F2"]].values
 
     model = linear_model.LinearRegression()
     
@@ -116,9 +120,9 @@ def main():
     df = readData()
     
     # Sepparate the data sets
-    df_B = df[df['speaker'] == "B"]
-    df_J = df[df['speaker'] == "J"]
-    df_O = df[df['speaker'] == "O"]
+    df_B = df[df['speaker'] == "B"].reset_index()
+    df_J = df[df['speaker'] == "J"].reset_index()
+    df_O = df[df['speaker'] == "O"].reset_index()
 
     print("Size B", df_B.shape)
     print("Size J", df_J.shape)
@@ -134,8 +138,8 @@ def main():
     imput(df_J)
     imput(df_O)
 
-    cluster(df_B, df_J, df_O)
-
+    #cluster(df_B, df_J, df_O)
+    print("\n\n#####################\nWith O as goal\n##################\n")
     print("Fitting O to O")
     model1(df_O, df_O)
     print("--------------------------\nFitting J to O")
@@ -143,7 +147,23 @@ def main():
     print("--------------------------\nFitting B to O")
     model1(df_B, df_O)
 
-    #saveDFs(df_B, df_J, df_O)
+    print("\n\n#####################\nWith J as goal\n##################\n")
+    print("Fitting J to J")
+    model1(df_J, df_J)
+    print("--------------------------\nFitting O to J")
+    model1(df_O, df_J)
+    print("--------------------------\nFitting B to J")
+    model1(df_B, df_J)
+
+    print("\n\n#####################\nWith B as goal\n##################\n")
+    print("Fitting B to B")
+    model1(df_B, df_B)
+    print("--------------------------\nFitting J to B")
+    model1(df_J, df_B)
+    print("--------------------------\nFitting B to O")
+    model1(df_O, df_B)
+
+    saveDFs(df_B, df_J, df_O)
 
 
 main()
