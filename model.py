@@ -9,6 +9,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 from sklearn.model_selection import train_test_split
+import seaborn
 
 def readData():
     currentDir = os.getcwd()
@@ -59,9 +60,9 @@ def imput(df):
     df["F2"]=imputer.fit_transform(df[["F2"]]).ravel()
 
 def cluster(df_B, df_J, df_O):
-    df_B_clean = df_B[df_B["include"] != 0]
-    df_J_clean = df_J[df_J["include"] != 0]
-    df_O_clean = df_O[df_O["include"] != 0]
+    df_B_clean = df_B[df_B["include"] == 1]
+    df_J_clean = df_J[df_J["include"] == 1]
+    df_O_clean = df_O[df_O["include"] == 1]
 
     X_O = df_O_clean[["F1", "F2"]].values
     X_B = df_B_clean[["F1", "F2"]].values
@@ -78,46 +79,72 @@ def cluster(df_B, df_J, df_O):
     xb = X_B
 
     print("clustering")
-    clusterer = hdbscan.HDBSCAN(min_cluster_size=7)
-    lo = clusterer.fit_predict(xo)
-    lj = clusterer.fit_predict(xj)
-    lb = clusterer.fit_predict(xb)
+    # clusterer = hdbscan.HDBSCAN(min_cluster_size=10)
+    # lo = clusterer.fit_predict(xo)
+    # lj = clusterer.fit_predict(xj)
+    # lb = clusterer.fit_predict(xb)
+
+    # clusterer = KMeans(n_clusters=4)
+    # lo = clusterer.fit_predict(xo)
+    # lj = clusterer.fit_predict(xj)
+    # lb = clusterer.fit_predict(xb)
 
 
 
     print("Plotting data")
-    fig = plt.figure(figsize = (8,8))
-    ax1 = fig.add_subplot(1,3,1) 
+    fig1 = plt.figure(1)
+    ax1 = fig1.add_subplot(1,3,1) 
     ax1.set_xlabel('F1', fontsize = 15)
     ax1.set_ylabel('F2', fontsize = 15)
     ax1.set_title("O", fontsize = 20)
 
     ax1.scatter(xo[:,0]
                 , xo[:,1]
-                , c = lo
+                #, c = lo
                 , s = 10)
     ax1.grid()
-    ax2 = fig.add_subplot(1,3,2) 
+    ax1.set_ylim([1000, 3000])
+    ax1.set_xlim([0, 2200])
+    ax2 = fig1.add_subplot(1,3,2) 
     ax2.set_xlabel('F1', fontsize = 15)
     ax2.set_ylabel('F2', fontsize = 15)
     ax2.set_title("J", fontsize = 20)
 
     ax2.scatter(xj[:,0]
                 , xj[:,1]
-                , c = lj
+                #, c = lj
                 , s = 10)
     ax2.grid()
-
-    ax3 = fig.add_subplot(1,3,3) 
+    ax2.set_ylim([1000, 3000])
+    ax2.set_xlim([0, 2200])
+    ax3 = fig1.add_subplot(1,3,3) 
     ax3.set_xlabel('F1', fontsize = 15)
     ax3.set_ylabel('F2', fontsize = 15)
     ax3.set_title("B", fontsize = 20)
 
     ax3.scatter(xb[:,0]
                 , xb[:,1]
-                , c = lb
+                #, c = lb
                 , s = 10)
     ax3.grid()
+    ax3.set_ylim([1000, 3000])
+    ax3.set_xlim([0, 2200])
+
+    fig2 = plt.figure(2)
+    plt.title("All three in one plot")
+    plt.xlabel("F1")
+    plt.ylabel("F2")
+    po = plt.scatter(xo[:,0]
+            , xo[:,1]
+            , s = 10)
+    pj = plt.scatter(xj[:,0]
+            , xj[:,1]
+            , s = 10)
+    pb = plt.scatter(xb[:,0]
+            , xb[:,1]
+            , s = 10)
+    
+    plt.legend((po, pj, pb), ("O", "J", "B"))
     plt.show()
     
 
@@ -141,7 +168,7 @@ def main():
     imput(df_J)
     imput(df_O)
 
-    #cluster(df_B, df_J, df_O)
+    cluster(df_B, df_J, df_O)
     print("\n\n#####################\nWith O as goal\n##################\n")
     print("Fitting O to O")
     model1(df_O, df_O)
@@ -163,7 +190,7 @@ def main():
     model1(df_B, df_B)
     print("--------------------------\nFitting J to B")
     model1(df_J, df_B)
-    print("--------------------------\nFitting B to O")
+    print("--------------------------\nFitting O to B")
     model1(df_O, df_B)
 
     saveDFs(df_B, df_J, df_O)
