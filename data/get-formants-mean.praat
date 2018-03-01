@@ -1,7 +1,7 @@
 path$ = "D:\tmp\"
 out$ = path$+"formants-mean.txt"
 
-writeFileLine: out$, "speaker"+tab$+"recording"+tab$+"vowel"+tab$+"label"+tab$+"F1"+tab$+"F2"+tab$+"include"
+writeFileLine: out$, "speaker"+tab$+"recording"+tab$+"vowel"+tab$+"label"+tab$+"F0"+tab$+"F1"+tab$+"F2"+tab$+"include"
 
 #set items ID
 
@@ -10,11 +10,13 @@ total=numberOfSelected("TextGrid")
 for i from 1 to 'total'
 	textID'i' = selected ("TextGrid",i)
 	formantID'i' = selected ("Formant",i)
+    pitchID'i' = selected ("Pitch",i)
 endfor
 
 for i from 1 to 'total'
 	textID = textID'i'
 	formantID = formantID'i'
+	pitchID = pitchID'i'
 	select 'formantID'
 	name$ = selected$ ("Formant")
 	select 'textID'
@@ -43,7 +45,10 @@ for i from 1 to 'total'
             select 'formantID'
             f1 = Get mean: 1, start, end, "Hertz"
             f2 = Get mean: 2, start, end, "Hertz"
-            appendFileLine: out$, left$(name$,1)+tab$+right$(name$,2)+tab$+lbl$+tab$+vow$+tab$+string$(f1)+tab$+string$(f2)+tab$+string$(incl)
+            select 'pitchID'
+            f0 = Get mean: start, end, "Hertz"
+
+            appendFileLine: out$, left$(name$,1)+tab$+right$(name$,2)+tab$+lbl$+tab$+vow$+tab$+string$(f0)+tab$+string$(f1)+tab$+string$(f2)+tab$+string$(incl)
         endif
     endfor
     
