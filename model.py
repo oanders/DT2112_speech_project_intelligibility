@@ -47,6 +47,8 @@ def model1(df_X, df_Y):
     print("Mean squared error before regression was", mean_squared_error(y, X))
     print("Mean squared error after regression is", mean_squared_error(y_test, prediction))
 
+    return model
+
 def saveDFs(df_B, df_J, df_O):
     writer = pandas.ExcelWriter("test.xlsx")
     df_B.to_excel(writer, 'B')
@@ -78,7 +80,7 @@ def cluster(df_B, df_J, df_O):
     xj = X_J
     xb = X_B
 
-    print("clustering")
+    # print("clustering")
     # clusterer = hdbscan.HDBSCAN(min_cluster_size=10)
     # lo = clusterer.fit_predict(xo)
     # lj = clusterer.fit_predict(xj)
@@ -92,7 +94,7 @@ def cluster(df_B, df_J, df_O):
 
 
     print("Plotting data")
-    fig1 = plt.figure(1)
+    fig1 = plt.figure(None)
     ax1 = fig1.add_subplot(1,3,1) 
     ax1.set_xlabel('F1', fontsize = 15)
     ax1.set_ylabel('F2', fontsize = 15)
@@ -130,7 +132,7 @@ def cluster(df_B, df_J, df_O):
     ax3.set_ylim([1000, 3000])
     ax3.set_xlim([0, 2200])
 
-    fig2 = plt.figure(2)
+    fig2 = plt.figure(None)
     plt.title("All three in one plot")
     plt.xlabel("F1")
     plt.ylabel("F2")
@@ -145,8 +147,53 @@ def cluster(df_B, df_J, df_O):
             , s = 10)
     
     plt.legend((po, pj, pb), ("O", "J", "B"))
-    plt.show()
+
+def plotCompare(bj, bo, df_B, df_J, df_O):
+    X_B = df_B[["F1", "F2"]].values
+    X_J = df_J[["F1", "F2"]].values
+    X_O = df_O[["F1", "F2"]].values
+
+
+    bj_x = bj.predict(X_B)
+    bo_x = bo.predict(X_B)
+
+
+
+    print("Plotting data")
+    fig1 = plt.figure(None)
+    ax1 = fig1.add_subplot(1,2,1) 
+    ax1.set_xlabel('F1', fontsize = 15)
+    ax1.set_ylabel('F2', fontsize = 15)
+    ax1.set_title("BJ", fontsize = 20)
+
+    bj_p = ax1.scatter(bj_x[:,0]
+                , bj_x[:,1]
+                , c = 'r'
+                , s = 10)
+
+    j_p = ax1.scatter(X_J[:,0]
+                , X_J[:,1]
+                , c = 'b'
+                , s = 10)
+    ax1.grid()
+
+    ax2 = fig1.add_subplot(1,2,2) 
+    ax2.set_xlabel('F1', fontsize = 15)
+    ax2.set_ylabel('F2', fontsize = 15)
+    ax2.set_title("BO", fontsize = 20)
+
+    bo_p = ax2.scatter(bo_x[:,0]
+                , bo_x[:,1]
+                , c = 'r'
+                , s = 10)
+
+    o_p = ax2.scatter(X_O[:,0]
+                , X_O[:,1]
+                , c = 'b'
+                , s = 10)
+    ax2.grid()
     
+    plt.legend((bj_p, j_p, bo_p, o_p), ("B->J", "J", "B->O", "O"))
 
 
 
@@ -171,29 +218,32 @@ def main():
     cluster(df_B, df_J, df_O)
     print("\n\n#####################\nWith O as goal\n##################\n")
     print("Fitting O to O")
-    model1(df_O, df_O)
+    oo = model1(df_O, df_O)
     print("--------------------------\nFitting J to O")
-    model1(df_J, df_O)
+    jo = model1(df_J, df_O)
     print("--------------------------\nFitting B to O")
-    model1(df_B, df_O)
+    bo = model1(df_B, df_O)
 
     print("\n\n#####################\nWith J as goal\n##################\n")
     print("Fitting J to J")
-    model1(df_J, df_J)
+    jj = model1(df_J, df_J)
     print("--------------------------\nFitting O to J")
-    model1(df_O, df_J)
+    oj = model1(df_O, df_J)
     print("--------------------------\nFitting B to J")
-    model1(df_B, df_J)
+    bj = model1(df_B, df_J)
 
     print("\n\n#####################\nWith B as goal\n##################\n")
     print("Fitting B to B")
-    model1(df_B, df_B)
+    bb = model1(df_B, df_B)
     print("--------------------------\nFitting J to B")
-    model1(df_J, df_B)
+    jb = model1(df_J, df_B)
     print("--------------------------\nFitting O to B")
-    model1(df_O, df_B)
+    ob = model1(df_O, df_B)
 
-    saveDFs(df_B, df_J, df_O)
+    plotCompare(bj, bo, df_B, df_J, df_O)
+    plotCompare(oj, ob, df_O, df_J, df_B)
+
+    plt.show()
 
 
 main()
