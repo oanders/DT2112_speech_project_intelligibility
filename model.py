@@ -9,6 +9,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor
 import seaborn
 
 def readData():
@@ -33,7 +34,8 @@ def model1(df_X, df_Y):
     y = df_Y_good[["F1", "F2"]].values
 
     model = linear_model.LinearRegression()
-    
+    #model = DecisionTreeRegressor(max_depth=5)
+
     # Split into train and test set (Dont see why we would need validation since we have no hyperparameters)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
 
@@ -66,6 +68,10 @@ def cluster(df_B, df_J, df_O):
     df_J_clean = df_J[df_J["include"] == 1]
     df_O_clean = df_O[df_O["include"] == 1]
 
+    df_B_clean = df_B_clean[df_B_clean["label"].isin(["A:", "i:", "o:"])]
+    df_J_clean = df_J_clean[df_J_clean["label"].isin(["A:", "i:", "o:"])]
+    df_O_clean = df_O_clean[df_O_clean["label"].isin(["A:", "i:", "o:"])]
+    
     X_O = df_O_clean[["F1", "F2"]].values
     X_B = df_B_clean[["F1", "F2"]].values
     X_J = df_J_clean[["F1", "F2"]].values
@@ -92,7 +98,6 @@ def cluster(df_B, df_J, df_O):
     # lb = clusterer.fit_predict(xb)
 
 
-
     print("Plotting data")
     fig1 = plt.figure(None)
     ax1 = fig1.add_subplot(1,3,1) 
@@ -100,13 +105,18 @@ def cluster(df_B, df_J, df_O):
     ax1.set_ylabel('F2', fontsize = 15)
     ax1.set_title("O", fontsize = 20)
 
+    unique_vowels = df_O_clean["label"].unique()
+
     ax1.scatter(xo[:,0]
                 , xo[:,1]
-                #, c = lo
+                , c=df_O_clean["nr_label"]
                 , s = 10)
+
+    
     ax1.grid()
     ax1.set_ylim([1000, 3000])
     ax1.set_xlim([0, 2200])
+
     ax2 = fig1.add_subplot(1,3,2) 
     ax2.set_xlabel('F1', fontsize = 15)
     ax2.set_ylabel('F2', fontsize = 15)
@@ -114,8 +124,10 @@ def cluster(df_B, df_J, df_O):
 
     ax2.scatter(xj[:,0]
                 , xj[:,1]
-                #, c = lj
+                , c=df_J_clean["nr_label"]
                 , s = 10)
+
+    
     ax2.grid()
     ax2.set_ylim([1000, 3000])
     ax2.set_xlim([0, 2200])
@@ -126,11 +138,24 @@ def cluster(df_B, df_J, df_O):
 
     ax3.scatter(xb[:,0]
                 , xb[:,1]
-                #, c = lb
+                , c=df_B_clean["nr_label"]
                 , s = 10)
+
+    
     ax3.grid()
     ax3.set_ylim([1000, 3000])
     ax3.set_xlim([0, 2200])
+
+    
+    for i, txt in enumerate(df_O_clean["label"]):
+        ax1.annotate(txt, (xo[i,0], xo[i,1]))
+
+    for i, txt in enumerate(df_J_clean["label"]):
+        ax2.annotate(txt, (xj[i,0], xj[i,1]))
+
+    for i, txt in enumerate(df_B_clean["label"]):
+        ax3.annotate(txt, (xb[i,0], xb[i,1]))
+    
 
     fig2 = plt.figure(None)
     plt.title("All three in one plot")
@@ -138,12 +163,16 @@ def cluster(df_B, df_J, df_O):
     plt.ylabel("F2")
     po = plt.scatter(xo[:,0]
             , xo[:,1]
-            , s = 10)
+            #,c = df_O_clean["label"]
+            ,s = 10)
     pj = plt.scatter(xj[:,0]
             , xj[:,1]
+            #, c = df_J_clean["label"]
             , s = 10)
     pb = plt.scatter(xb[:,0]
             , xb[:,1]
+            #, c = df_B_clean["label"]
+
             , s = 10)
     
     plt.legend((po, pj, pb), ("O", "J", "B"))
@@ -164,7 +193,7 @@ def plotCompare(bj, bo, df_B, df_J, df_O):
     ax1 = fig1.add_subplot(1,2,1) 
     ax1.set_xlabel('F1', fontsize = 15)
     ax1.set_ylabel('F2', fontsize = 15)
-    ax1.set_title("BJ", fontsize = 20)
+    ax1.set_title("OJ", fontsize = 20)
 
     bj_p = ax1.scatter(bj_x[:,0]
                 , bj_x[:,1]
@@ -180,7 +209,7 @@ def plotCompare(bj, bo, df_B, df_J, df_O):
     ax2 = fig1.add_subplot(1,2,2) 
     ax2.set_xlabel('F1', fontsize = 15)
     ax2.set_ylabel('F2', fontsize = 15)
-    ax2.set_title("BO", fontsize = 20)
+    ax2.set_title("OB", fontsize = 20)
 
     bo_p = ax2.scatter(bo_x[:,0]
                 , bo_x[:,1]
@@ -193,12 +222,23 @@ def plotCompare(bj, bo, df_B, df_J, df_O):
                 , s = 10)
     ax2.grid()
     
-    plt.legend((bj_p, j_p, bo_p, o_p), ("B->J", "J", "B->O", "O"))
+    plt.legend((bj_p, j_p, bo_p, o_p), ("O->J", "J", "O->B", "B"))
 
 
 
 def main():
     df = readData()
+    i = 0
+    unique_vowels = df['label'].unique()
+    df["nr_label"] = df["label"]
+    for vowel in unique_vowels:
+       df['nr_label'] =  df['nr_label'].replace(vowel, i)
+       i += 1
+
+    print(df['nr_label'])
+
+
+    #df.dropna(axis=1, how='any')
     
     # Sepparate the data sets
     df_B = df[df['speaker'] == "B"].reset_index()
@@ -210,11 +250,13 @@ def main():
     print("Size O without zeros", df_O[df_O["include"] != 0].shape)
 
 
+    
     # Imput missing values for F2 with mean
     imput(df_B)
     imput(df_J)
     imput(df_O)
 
+    
     cluster(df_B, df_J, df_O)
     print("\n\n#####################\nWith O as goal\n##################\n")
     print("Fitting O to O")
@@ -240,9 +282,10 @@ def main():
     print("--------------------------\nFitting O to B")
     ob = model1(df_O, df_B)
 
-    plotCompare(bj, bo, df_B, df_J, df_O)
+    #plotCompare(bj, bo, df_B, df_J, df_O)
     plotCompare(oj, ob, df_O, df_J, df_B)
-
+    saveDFs(df_B, df_J, df_O)
+    
     plt.show()
 
 
