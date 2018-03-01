@@ -1,0 +1,5 @@
+name: speech
+channels:
+  - defaults
+prefix: /usr/local/miniconda3/envs/speech
+
