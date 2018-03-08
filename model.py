@@ -68,10 +68,13 @@ def cluster(df_B, df_J, df_O):
     df_J_clean = df_J[df_J["include"] == 1]
     df_O_clean = df_O[df_O["include"] == 1]
 
-    df_B_clean = df_B_clean[df_B_clean["label"].isin(["A:", "i:", "o:"])]
-    df_J_clean = df_J_clean[df_J_clean["label"].isin(["A:", "i:", "o:"])]
-    df_O_clean = df_O_clean[df_O_clean["label"].isin(["A:", "i:", "o:"])]
+    df_B_clean = df_B_clean[df_B_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
+    df_J_clean = df_J_clean[df_J_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
+    df_O_clean = df_O_clean[df_O_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
     
+    print(df_B_clean[df_B_clean["label"] == "A:"])
+    print("F1", df_B_clean[df_B_clean["label"] == "A:"]["F1"])
+
     X_O = df_O_clean[["F1", "F2"]].values
     X_B = df_B_clean[["F1", "F2"]].values
     X_J = df_J_clean[["F1", "F2"]].values
@@ -224,7 +227,74 @@ def plotCompare(bj, bo, df_B, df_J, df_O):
     
     plt.legend((bj_p, j_p, bo_p, o_p), ("O->J", "J", "O->B", "B"))
 
+def helmut_plot(df_B, df_J, df_O):
+    df_B_clean = df_B[df_B["include"] == 1]
+    df_J_clean = df_J[df_J["include"] == 1]
+    df_O_clean = df_O[df_O["include"] == 1]
 
+    df_B_clean = df_B_clean[df_B_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
+    df_J_clean = df_J_clean[df_J_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
+    df_O_clean = df_O_clean[df_O_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
+    
+
+    b = np.zeros(shape=(6,2))
+    b[0] = [df_B_clean[df_B_clean["label"] == "i:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "i:"]["F2"].median()]
+    b[1] = [df_B_clean[df_B_clean["label"] == "u:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "u:"]["F2"].median()]
+    b[2] = [df_B_clean[df_B_clean["label"] == "o:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "o:"]["F2"].median()]
+    b[3] = [df_B_clean[df_B_clean["label"] == "A:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "A:"]["F2"].median()]
+    b[4] = [df_B_clean[df_B_clean["label"] == "e:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "e:"]["F2"].median()]
+    b[5] = b[0]
+
+    o = np.zeros(shape=(6,2))
+    
+    o[0] = [df_O_clean[df_O_clean["label"] == "i:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "i:"]["F2"].median()]
+    o[1] = [df_O_clean[df_O_clean["label"] == "u:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "u:"]["F2"].median()]
+    o[2] = [df_O_clean[df_O_clean["label"] == "o:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "o:"]["F2"].median()]
+    o[3] = [df_O_clean[df_O_clean["label"] == "A:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "A:"]["F2"].median()]
+    o[4] = [df_O_clean[df_O_clean["label"] == "e:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "e:"]["F2"].median()]
+    o[5] = o[0]
+
+    j = np.zeros(shape=(6,2))
+    
+    j[0] = [df_J_clean[df_J_clean["label"] == "i:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "i:"]["F2"].median()]
+    j[1] = [df_J_clean[df_J_clean["label"] == "u:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "u:"]["F2"].median()]
+    j[2] = [df_J_clean[df_J_clean["label"] == "o:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "o:"]["F2"].median()]
+    j[3] = [df_J_clean[df_J_clean["label"] == "A:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "A:"]["F2"].median()]
+    j[4] = [df_J_clean[df_J_clean["label"] == "e:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "e:"]["F2"].median()]
+    j[5] = j[0]
+
+    b = (26.81*b)/(1960+b)-0.53
+    o = (26.81*o)/(1960+o)-0.53
+    j = (26.81*j)/(1960+j)-0.53
+
+    label = ["i", "u", "o", "a", "e"]
+    fig = plt.figure(None)
+    plt.title("Helmut")
+    plt.xlabel("F2")
+    plt.ylabel("F1")
+    pb = plt.plot(b[:,1]
+            , b[:,0]
+            , 'ro-'
+            ,label="B")
+
+    for i, txt in enumerate(label):
+        plt.annotate(txt, (b[i,1], b[i,0]))
+
+    pj = plt.plot(j[:,1]
+            , j[:,0]
+            , 'bo-'
+            ,label="J")
+    for i, txt in enumerate(label):
+        plt.annotate(txt, (j[i,1], j[i,0]))
+
+    po = plt.plot(o[:,1]
+            , o[:,0]
+            , 'go-'
+            ,label="O")
+    for i, txt in enumerate(label):
+        plt.annotate(txt, (o[i,1], o[i,0]))
+    
+    plt.legend()
 
 def main():
     df = readData()
@@ -252,12 +322,15 @@ def main():
 
     
     # Imput missing values for F2 with mean
-    imput(df_B)
-    imput(df_J)
-    imput(df_O)
+    #imput(df_B)
+    #imput(df_J)
+    #imput(df_O)
 
     
-    cluster(df_B, df_J, df_O)
+    #cluster(df_B, df_J, df_O)
+
+    helmut_plot(df_B, df_J, df_O)
+    '''
     print("\n\n#####################\nWith O as goal\n##################\n")
     print("Fitting O to O")
     oo = model1(df_O, df_O)
@@ -285,8 +358,7 @@ def main():
     #plotCompare(bj, bo, df_B, df_J, df_O)
     plotCompare(oj, ob, df_O, df_J, df_B)
     saveDFs(df_B, df_J, df_O)
-    
+    '''
     plt.show()
-
 
 main()
