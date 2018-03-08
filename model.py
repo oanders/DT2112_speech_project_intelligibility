@@ -14,7 +14,7 @@ import seaborn
 
 def readData():
     currentDir = os.getcwd()
-    path = os.path.join(currentDir, "data" + os.sep +"formant-data.xlsx")
+    path = os.path.join(currentDir, "data" + os.sep +"formant-data-f0.xlsx")
     df = pandas.read_excel(path)
     return df
 
@@ -238,31 +238,32 @@ def helmut_plot(df_B, df_J, df_O):
     
 
     b = np.zeros(shape=(6,2))
-    b[0] = [df_B_clean[df_B_clean["label"] == "i:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "i:"]["F2"].median()]
-    b[1] = [df_B_clean[df_B_clean["label"] == "u:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "u:"]["F2"].median()]
-    b[2] = [df_B_clean[df_B_clean["label"] == "o:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "o:"]["F2"].median()]
-    b[3] = [df_B_clean[df_B_clean["label"] == "A:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "A:"]["F2"].median()]
-    b[4] = [df_B_clean[df_B_clean["label"] == "e:"]["F1"].median(), df_B_clean[df_B_clean["label"] == "e:"]["F2"].median()]
+    b[0] = [df_B_clean[df_B_clean["label"] == "i:"]["F1"].mean(), df_B_clean[df_B_clean["label"] == "i:"]["F2"].mean()]
+    b[1] = [df_B_clean[df_B_clean["label"] == "u:"]["F1"].mean(), df_B_clean[df_B_clean["label"] == "u:"]["F2"].mean()]
+    b[2] = [df_B_clean[df_B_clean["label"] == "o:"]["F1"].mean(), df_B_clean[df_B_clean["label"] == "o:"]["F2"].mean()]
+    b[3] = [df_B_clean[df_B_clean["label"] == "A:"]["F1"].mean(), df_B_clean[df_B_clean["label"] == "A:"]["F2"].mean()]
+    b[4] = [df_B_clean[df_B_clean["label"] == "e:"]["F1"].mean(), df_B_clean[df_B_clean["label"] == "e:"]["F2"].mean()]
     b[5] = b[0]
 
     o = np.zeros(shape=(6,2))
     
-    o[0] = [df_O_clean[df_O_clean["label"] == "i:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "i:"]["F2"].median()]
-    o[1] = [df_O_clean[df_O_clean["label"] == "u:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "u:"]["F2"].median()]
-    o[2] = [df_O_clean[df_O_clean["label"] == "o:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "o:"]["F2"].median()]
-    o[3] = [df_O_clean[df_O_clean["label"] == "A:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "A:"]["F2"].median()]
-    o[4] = [df_O_clean[df_O_clean["label"] == "e:"]["F1"].median(), df_O_clean[df_O_clean["label"] == "e:"]["F2"].median()]
+    o[0] = [df_O_clean[df_O_clean["label"] == "i:"]["F1"].mean(), df_O_clean[df_O_clean["label"] == "i:"]["F2"].mean()]
+    o[1] = [df_O_clean[df_O_clean["label"] == "u:"]["F1"].mean(), df_O_clean[df_O_clean["label"] == "u:"]["F2"].mean()]
+    o[2] = [df_O_clean[df_O_clean["label"] == "o:"]["F1"].mean(), df_O_clean[df_O_clean["label"] == "o:"]["F2"].mean()]
+    o[3] = [df_O_clean[df_O_clean["label"] == "A:"]["F1"].mean(), df_O_clean[df_O_clean["label"] == "A:"]["F2"].mean()]
+    o[4] = [df_O_clean[df_O_clean["label"] == "e:"]["F1"].mean(), df_O_clean[df_O_clean["label"] == "e:"]["F2"].mean()]
     o[5] = o[0]
 
     j = np.zeros(shape=(6,2))
     
-    j[0] = [df_J_clean[df_J_clean["label"] == "i:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "i:"]["F2"].median()]
-    j[1] = [df_J_clean[df_J_clean["label"] == "u:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "u:"]["F2"].median()]
-    j[2] = [df_J_clean[df_J_clean["label"] == "o:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "o:"]["F2"].median()]
-    j[3] = [df_J_clean[df_J_clean["label"] == "A:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "A:"]["F2"].median()]
-    j[4] = [df_J_clean[df_J_clean["label"] == "e:"]["F1"].median(), df_J_clean[df_J_clean["label"] == "e:"]["F2"].median()]
+    j[0] = [df_J_clean[df_J_clean["label"] == "i:"]["F1"].mean(), df_J_clean[df_J_clean["label"] == "i:"]["F2"].mean()]
+    j[1] = [df_J_clean[df_J_clean["label"] == "u:"]["F1"].mean(), df_J_clean[df_J_clean["label"] == "u:"]["F2"].mean()]
+    j[2] = [df_J_clean[df_J_clean["label"] == "o:"]["F1"].mean(), df_J_clean[df_J_clean["label"] == "o:"]["F2"].mean()]
+    j[3] = [df_J_clean[df_J_clean["label"] == "A:"]["F1"].mean(), df_J_clean[df_J_clean["label"] == "A:"]["F2"].mean()]
+    j[4] = [df_J_clean[df_J_clean["label"] == "e:"]["F1"].mean(), df_J_clean[df_J_clean["label"] == "e:"]["F2"].mean()]
     j[5] = j[0]
 
+    #Bark conversion
     b = (26.81*b)/(1960+b)-0.53
     o = (26.81*o)/(1960+o)-0.53
     j = (26.81*j)/(1960+j)-0.53
@@ -293,6 +294,9 @@ def helmut_plot(df_B, df_J, df_O):
             ,label="O")
     for i, txt in enumerate(label):
         plt.annotate(txt, (o[i,1], o[i,0]))
+
+    plt.gca().invert_yaxis()
+    plt.gca().invert_xaxis()
     
     plt.legend()
 
