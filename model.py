@@ -63,21 +63,27 @@ def imput(df):
     imputer = Imputer(missing_values='NaN', strategy='mean', axis=0)
     df["F2"]=imputer.fit_transform(df[["F2"]]).ravel()
 
+#
 def cluster(df_B, df_J, df_O):
     df_B_clean = df_B[df_B["include"] == 1]
     df_J_clean = df_J[df_J["include"] == 1]
     df_O_clean = df_O[df_O["include"] == 1]
 
-    df_B_clean = df_B_clean[df_B_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
-    df_J_clean = df_J_clean[df_J_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
-    df_O_clean = df_O_clean[df_O_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
+    #df_B_clean = df_B_clean[df_B_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
+    #df_J_clean = df_J_clean[df_J_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
+    #df_O_clean = df_O_clean[df_O_clean["label"].isin(["A:", "i:", "o:", "u:", "e:"])]
     
-    print(df_B_clean[df_B_clean["label"] == "A:"])
-    print("F1", df_B_clean[df_B_clean["label"] == "A:"]["F1"])
+    #print(df_B_clean[df_B_clean["label"] == "A:"])
+    #print("F1", df_B_clean[df_B_clean["label"] == "A:"]["F1"])
 
     X_O = df_O_clean[["F1", "F2"]].values
     X_B = df_B_clean[["F1", "F2"]].values
     X_J = df_J_clean[["F1", "F2"]].values
+
+    #Bark conversion
+    X_O = (26.81*X_O)/(1960+X_O)-0.53
+    X_B = (26.81*X_B)/(1960+X_B)-0.53
+    X_J = (26.81*X_J)/(1960+X_J)-0.53
 
     # print("running tsne")
     # tsne = TSNE(n_components=2, random_state=0, perplexity=35)
@@ -104,128 +110,149 @@ def cluster(df_B, df_J, df_O):
     print("Plotting data")
     fig1 = plt.figure(None)
     ax1 = fig1.add_subplot(1,3,1) 
-    ax1.set_xlabel('F1', fontsize = 15)
-    ax1.set_ylabel('F2', fontsize = 15)
+    ax1.set_xlabel('F2 (Bark)', fontsize = 15)
+    ax1.set_ylabel('F1 (Bark)', fontsize = 15)
     ax1.set_title("O", fontsize = 20)
 
-    unique_vowels = df_O_clean["label"].unique()
-
-    ax1.scatter(xo[:,0]
-                , xo[:,1]
+    ax1.scatter(xo[:,1]
+                , xo[:,0]
                 , c=df_O_clean["nr_label"]
                 , s = 10)
 
     
     ax1.grid()
-    ax1.set_ylim([1000, 3000])
-    ax1.set_xlim([0, 2200])
+    ax1.set_ylim([1, 10])
+    ax1.set_xlim([5, 14])
+    plt.gca().invert_yaxis()
+    plt.gca().invert_xaxis()
+    
 
     ax2 = fig1.add_subplot(1,3,2) 
-    ax2.set_xlabel('F1', fontsize = 15)
-    ax2.set_ylabel('F2', fontsize = 15)
+    ax2.set_xlabel('F2 (Bark)', fontsize = 15)
+    ax2.set_ylabel('F1 (Bark)', fontsize = 15)
     ax2.set_title("J", fontsize = 20)
 
-    ax2.scatter(xj[:,0]
-                , xj[:,1]
+    ax2.scatter(xj[:,1]
+                , xj[:,0]
                 , c=df_J_clean["nr_label"]
                 , s = 10)
 
     
     ax2.grid()
-    ax2.set_ylim([1000, 3000])
-    ax2.set_xlim([0, 2200])
+    ax2.set_ylim([1, 10])
+    ax2.set_xlim([5, 14])
+    plt.gca().invert_yaxis()
+    plt.gca().invert_xaxis()
+    
     ax3 = fig1.add_subplot(1,3,3) 
-    ax3.set_xlabel('F1', fontsize = 15)
-    ax3.set_ylabel('F2', fontsize = 15)
+    ax3.set_xlabel('F2 (Bark)', fontsize = 15)
+    ax3.set_ylabel('F1 (Bark)', fontsize = 15)
     ax3.set_title("B", fontsize = 20)
 
-    ax3.scatter(xb[:,0]
-                , xb[:,1]
+    ax3.scatter(xb[:,1]
+                , xb[:,0]
                 , c=df_B_clean["nr_label"]
                 , s = 10)
 
-    
+    ax3.set_ylim([1, 10])
+    ax3.set_xlim([5, 14])
     ax3.grid()
-    ax3.set_ylim([1000, 3000])
-    ax3.set_xlim([0, 2200])
+    
 
     
-    for i, txt in enumerate(df_O_clean["label"]):
-        ax1.annotate(txt, (xo[i,0], xo[i,1]))
+    # for i, txt in enumerate(df_O_clean["label"]):
+    #     ax1.annotate(txt, (xo[i,1], xo[i,0]))
 
-    for i, txt in enumerate(df_J_clean["label"]):
-        ax2.annotate(txt, (xj[i,0], xj[i,1]))
+    # for i, txt in enumerate(df_J_clean["label"]):
+    #     ax2.annotate(txt, (xj[i,1], xj[i,0]))
 
-    for i, txt in enumerate(df_B_clean["label"]):
-        ax3.annotate(txt, (xb[i,0], xb[i,1]))
+    # for i, txt in enumerate(df_B_clean["label"]):
+    #     ax3.annotate(txt, (xb[i,1], xb[i,0]))
     
+    plt.gca().invert_yaxis()
+    plt.gca().invert_xaxis()
 
     fig2 = plt.figure(None)
     plt.title("All three in one plot")
-    plt.xlabel("F1")
-    plt.ylabel("F2")
-    po = plt.scatter(xo[:,0]
-            , xo[:,1]
+    plt.xlabel("F2 (Bark)")
+    plt.ylabel("F1 (Bark)")
+    po = plt.scatter(xo[:,1]
+            , xo[:,0]
             #,c = df_O_clean["label"]
             ,s = 10)
-    pj = plt.scatter(xj[:,0]
-            , xj[:,1]
+    pj = plt.scatter(xj[:,1]
+            , xj[:,0]
             #, c = df_J_clean["label"]
             , s = 10)
-    pb = plt.scatter(xb[:,0]
-            , xb[:,1]
+    pb = plt.scatter(xb[:,1]
+            , xb[:,0]
             #, c = df_B_clean["label"]
 
             , s = 10)
     
     plt.legend((po, pj, pb), ("O", "J", "B"))
+    plt.gca().invert_yaxis()
+    plt.gca().invert_xaxis()
 
-def plotCompare(bj, bo, df_B, df_J, df_O):
+def plotCompare(model_b_to_j, model_b_to_o, df_B, df_J, df_O, sb, sj, so):
     X_B = df_B[["F1", "F2"]].values
     X_J = df_J[["F1", "F2"]].values
     X_O = df_O[["F1", "F2"]].values
 
 
-    bj_x = bj.predict(X_B)
-    bo_x = bo.predict(X_B)
+    b_to_j_predicted_x = model_b_to_j.predict(X_B)
+    b_to_o_predicted_x = model_b_to_o.predict(X_B)
+
+    #Bark conversion
+    b_to_j_predicted_x = (26.81*b_to_j_predicted_x)/(1960+b_to_j_predicted_x)-0.53
+    b_to_o_predicted_x = (26.81*b_to_o_predicted_x)/(1960+b_to_o_predicted_x)-0.53
+
+    X_J = (26.81*X_J)/(1960+X_J)-0.53
+    X_O = (26.81*X_O)/(1960+X_O)-0.53
+
+
 
 
 
     print("Plotting data")
     fig1 = plt.figure(None)
     ax1 = fig1.add_subplot(1,2,1) 
-    ax1.set_xlabel('F1', fontsize = 15)
-    ax1.set_ylabel('F2', fontsize = 15)
-    ax1.set_title("OJ", fontsize = 20)
+    ax1.set_xlabel('F2 (Bark)', fontsize = 15)
+    ax1.set_ylabel('F1 (Bark)', fontsize = 15)
+    ax1.set_title(sb + " to " + sj, fontsize = 20)
 
-    bj_p = ax1.scatter(bj_x[:,0]
-                , bj_x[:,1]
+    bj_p = ax1.scatter(b_to_j_predicted_x[:,1]
+                , b_to_j_predicted_x[:,0]
                 , c = 'r'
                 , s = 10)
 
-    j_p = ax1.scatter(X_J[:,0]
-                , X_J[:,1]
+    j_p = ax1.scatter(X_J[:,1]
+                , X_J[:,0]
                 , c = 'b'
                 , s = 10)
     ax1.grid()
+    plt.gca().invert_yaxis()
+    plt.gca().invert_xaxis()
 
     ax2 = fig1.add_subplot(1,2,2) 
-    ax2.set_xlabel('F1', fontsize = 15)
-    ax2.set_ylabel('F2', fontsize = 15)
-    ax2.set_title("OB", fontsize = 20)
+    ax2.set_xlabel('F2', fontsize = 15)
+    ax2.set_ylabel('F1', fontsize = 15)
+    ax2.set_title(sb + " to " + so, fontsize = 20)
 
-    bo_p = ax2.scatter(bo_x[:,0]
-                , bo_x[:,1]
-                , c = 'r'
+    bo_p = ax2.scatter(b_to_o_predicted_x[:,1]
+                , b_to_o_predicted_x[:,0]
+                , c = 'g'
                 , s = 10)
 
-    o_p = ax2.scatter(X_O[:,0]
-                , X_O[:,1]
-                , c = 'b'
+    o_p = ax2.scatter(X_O[:,1]
+                , X_O[:,0]
+                , c = 'y'
                 , s = 10)
     ax2.grid()
+    plt.gca().invert_yaxis()
+    plt.gca().invert_xaxis()
     
-    plt.legend((bj_p, j_p, bo_p, o_p), ("O->J", "J", "O->B", "B"))
+    plt.legend((bj_p, j_p, bo_p, o_p), (sb + "->" + sj, sj, sb + "->" +so, so))
 
 def helmut_plot(df_B, df_J, df_O):
     df_B_clean = df_B[df_B["include"] == 1]
@@ -271,8 +298,8 @@ def helmut_plot(df_B, df_J, df_O):
     label = ["i", "u", "o", "a", "e"]
     fig = plt.figure(None)
     plt.title("Helmut")
-    plt.xlabel("F2")
-    plt.ylabel("F1")
+    plt.xlabel("F2 (Bark)")
+    plt.ylabel("F1 (Bark)")
     pb = plt.plot(b[:,1]
             , b[:,0]
             , 'ro-'
@@ -331,37 +358,37 @@ def main():
     #imput(df_O)
 
     
-    #cluster(df_B, df_J, df_O)
-
-    helmut_plot(df_B, df_J, df_O)
+    cluster(df_B, df_J, df_O)
     '''
+    helmut_plot(df_B, df_J, df_O)
+
     print("\n\n#####################\nWith O as goal\n##################\n")
     print("Fitting O to O")
-    oo = model1(df_O, df_O)
+    model_o_to_o = model1(df_O, df_O)
     print("--------------------------\nFitting J to O")
-    jo = model1(df_J, df_O)
+    model_j_to_o = model1(df_J, df_O)
     print("--------------------------\nFitting B to O")
-    bo = model1(df_B, df_O)
+    model_b_to_o = model1(df_B, df_O)
 
     print("\n\n#####################\nWith J as goal\n##################\n")
     print("Fitting J to J")
-    jj = model1(df_J, df_J)
+    model_j_to_j = model1(df_J, df_J)
     print("--------------------------\nFitting O to J")
-    oj = model1(df_O, df_J)
+    model_o_to_j = model1(df_O, df_J)
     print("--------------------------\nFitting B to J")
-    bj = model1(df_B, df_J)
+    model_b_to_j = model1(df_B, df_J)
 
     print("\n\n#####################\nWith B as goal\n##################\n")
     print("Fitting B to B")
-    bb = model1(df_B, df_B)
+    model_b_to_b = model1(df_B, df_B)
     print("--------------------------\nFitting J to B")
-    jb = model1(df_J, df_B)
+    model_j_to_b = model1(df_J, df_B)
     print("--------------------------\nFitting O to B")
-    ob = model1(df_O, df_B)
+    model_o_to_b = model1(df_O, df_B)
 
-    #plotCompare(bj, bo, df_B, df_J, df_O)
-    plotCompare(oj, ob, df_O, df_J, df_B)
-    saveDFs(df_B, df_J, df_O)
+    plotCompare(model_b_to_j, model_b_to_o, df_B, df_J, df_O, 'B', 'J', 'O')
+    #plotCompare(model_o_to_j, model_o_to_b, df_O, df_J, df_B)
+    #saveDFs(df_B, df_J, df_O)
     '''
     plt.show()
 
